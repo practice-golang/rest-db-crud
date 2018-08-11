@@ -66,7 +66,13 @@ func main() {
 
 	e := echo.New()
 
-	// e.Use(middleware.Logger())
+	e.Use(middleware.CORS())
+	// e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+	// 	AllowOrigins: []string{"http://localhost:8080", "*"},
+	// 	AllowMethods: []string{echo.GET, echo.PUT, echo.POST, echo.DELETE},
+	// }))
+
+	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
 
 	e.GET("/books", index)
