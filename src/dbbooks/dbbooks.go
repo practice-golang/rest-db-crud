@@ -5,8 +5,6 @@ import (
 	"strconv"
 
 	_ "github.com/go-sql-driver/mysql"
-	_ "github.com/syndtr/goleveldb/leveldb"
-	_ "github.com/tidwall/buntdb"
 )
 
 // Book 구조체
