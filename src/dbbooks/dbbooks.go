@@ -2,6 +2,7 @@ package dbbooks
 
 import (
 	"database/sql"
+	"fmt"
 	"strconv"
 
 	_ "github.com/go-sql-driver/mysql"
@@ -9,9 +10,9 @@ import (
 
 // Book 구조체
 type Book struct {
-	ID     int
-	Title  string
-	Author string
+	ID     int    `json:"ID"`
+	Title  string `json:"Title"`
+	Author string `json:"Author"`
 }
 
 func dbConn() (db *sql.DB) {
@@ -95,7 +96,9 @@ func DeleteData(id int, table string) {
 	db := dbConn()
 	defer db.Close()
 
-	sql, err := db.Prepare("delete from `" + table + "` where _id=?")
+	fmt.Println(id, table)
+
+	sql, err := db.Prepare("delete from `" + table + "` where `_id`=?")
 	if err != nil {
 		panic(err.Error())
 	}

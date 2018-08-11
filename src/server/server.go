@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -20,8 +21,8 @@ func index(c echo.Context) error {
 }
 
 func create(c echo.Context) error {
-	title := c.FormValue("title")
-	author := c.FormValue("author")
+	title := c.FormValue("Title")
+	author := c.FormValue("Author")
 
 	dbbooks.InsertData(title, author, table)
 	return c.JSON(http.StatusOK, &ResultResponse{Message: "Create done"})
@@ -33,26 +34,29 @@ func read(c echo.Context) error {
 }
 
 func update(c echo.Context) error {
-	bookMap := echo.Map{}
-	if e := c.Bind(&bookMap); e != nil {
-		panic(e.Error())
-	}
-
-	id, _ := strconv.Atoi(bookMap["ID"].(string))
-	dbbooks.UpdateData(id, bookMap["Title"].(string), bookMap["Author"].(string), table)
-	// bookMap["Message"] = "Update done"
-	return c.JSON(http.StatusOK, &ResultResponse{Message: "Update done"})
-}
-
-func delete(c echo.Context) error {
-	auth := echo.Map{}
-	if e := c.Bind(&auth); e != nil {
+	book := new(dbbooks.Book)
+	if e := c.Bind(book); e != nil {
 		panic(e.Error())
 	}
 
 	id, _ := strconv.Atoi(c.Param("id"))
-	dbbooks.DeleteData(id, table)
+	dbbooks.UpdateData(id, book.Title, book.Author, table)
 
+	return c.JSON(http.StatusOK, &ResultResponse{Message: "Update done"})
+}
+
+func delete(c echo.Context) error {
+	// Error is occured so, auth is waived.
+	// auth := echo.Map{}
+	// if e := c.Bind(&auth); e != nil {
+	// 	panic(e.Error())
+	// }
+
+	id, _ := strconv.Atoi(c.Param("id"))
+
+	fmt.Println(id)
+
+	dbbooks.DeleteData(id, table)
 	return c.JSON(http.StatusOK, &ResultResponse{Message: "Delete done"})
 }
 
@@ -79,7 +83,7 @@ func main() {
 
 	e.POST("/books", create)
 	e.GET("/books/:id", read)
-	e.PUT("/books", update)
+	e.PUT("/books/:id", update)
 	e.DELETE("/books/:id", delete)
 
 	e.Logger.Fatal(e.Start(":1323"))
