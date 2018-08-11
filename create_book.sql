@@ -1,0 +1,12 @@
+CREATE DATABASE IF NOT EXISTS `myslimsite`;
+USE `myslimsite`;
+
+CREATE TABLE `books` (
+	`_id` INT(11) NOT NULL AUTO_INCREMENT,
+	`title` VARCHAR(255) NULL DEFAULT NULL,
+	`author` VARCHAR(255) NULL DEFAULT NULL,
+	PRIMARY KEY (`_id`)
+)
+COLLATE='utf8_general_ci'
+ENGINE=InnoDB
+;
