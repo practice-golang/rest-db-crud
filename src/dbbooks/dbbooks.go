@@ -181,7 +181,7 @@ func main() {
 		if id > 0 {
 			DeleteData(id, table) // cruD - Delete : 없는 _id를 골랐는데 에러가 안뜬다?? 머지머지??
 		} else {
-			panic("Id value have to be larger than 1.")
+			panic("ID value have to be larger than 1.")
 		}
 	default:
 		panic("Check inputed parameters.")
