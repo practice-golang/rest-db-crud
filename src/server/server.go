@@ -39,8 +39,9 @@ func update(c echo.Context) error {
 		panic(e.Error())
 	}
 
-	id, _ := strconv.Atoi(c.Param("id"))
-	dbbooks.UpdateData(id, book.Title, book.Author, table)
+	// id, _ := strconv.Atoi(c.Param("id"))
+	// dbbooks.UpdateData(id, book.Title, book.Author, table)
+	dbbooks.UpdateData(book.ID, book.Title, book.Author, table)
 
 	return c.JSON(http.StatusOK, &ResultResponse{Message: "Update done"})
 }
@@ -83,7 +84,7 @@ func main() {
 
 	e.POST("/books", create)
 	e.GET("/books/:id", read)
-	e.PUT("/books/:id", update)
+	e.PUT("/books", update)
 	e.DELETE("/books/:id", delete)
 
 	e.Logger.Fatal(e.Start(":1323"))
